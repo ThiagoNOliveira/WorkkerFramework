@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using DDD.ExemploPuro.Framework;
-using DDD.Exemplopuro.Domain;
 using System.Reflection;
+using Workker.Framework.Domain;
 
 namespace Workker.Framework.Test
 {
