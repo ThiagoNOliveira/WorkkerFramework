@@ -277,6 +277,7 @@ namespace Workker.Framework.Test
         #endregion
 
         #region andAssertion
+
         [Test]
         public void and_deve_retornar_instancia_do_tipo_and_assertion()
         {
@@ -285,6 +286,13 @@ namespace Workker.Framework.Test
 
             Assert.IsTrue(assertAnd.GetType() == typeof(andAssertion));
         }
+
+        [Test]
+        public void and_assertion_test()
+        {
+            
+        }
+
         #endregion
 
         #region AndAssertion
