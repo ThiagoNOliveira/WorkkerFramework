@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    @RenderBody()
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script src="~/Scripts/highcharts.js"></script>
+    <script src="~/Scripts/highcharts-more.js"></script>
+    <script src="~/Scripts/exporting.js"></script>
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">        debugger        $.ready(document)        {
+            $.ajax({
+                method: 'GET',
+                url: "/DashBoard/GetCharts",
+                context: document.body,
+                dataType: 'json',
+                content: 'application/json'
+            }).success(function (d) {
+
+                var charts = JSON.parse(d);
+
+                var prefix = "subContainer_";
+
+                var ultimaDiv = "";
+
+                var contador = 0;
+
+                for (i = 0; i < charts.length; i++)
+                {
+                    if (contador == 0 || contador == 3) {
+
+                        ultimaDiv = prefix + i.toString();
+
+                        $("#tela").append("<div id=" + ultimaDiv + " style=\"table-row\" />");
+                    }
+
+                    if (contador == 3)
+                        contador = 0;
+
+                    var divName = "container_" + i.toString();
+
+                    var htmlText = " <div id='" + divName + "' style=\"width: 200px; height: 300px; display:table-cell; margin: 0 auto\"></div>";
+
+                    $("#" + ultimaDiv).append(htmlText);
+
+                    contador++;
+
+                    redenrizarGraficos(charts[i].Setor, charts[i].Nota, divName);
+                }
+
+            }).error(function(d){
+                
+                alert(d);
+            });
+        }
+        function redenrizarGraficos(setor, nota, div) {
+
+            var chart = new Highcharts.Chart({
+
+                chart: {
+                    renderTo: div,
+                    type: 'gauge',
+                    plotBackgroundColor: null,
+                    plotBackgroundImage: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+
+                title: {
+                    text: setor
+                },
+
+                pane: {
+                    startAngle: -150,
+                    endAngle: 150,
+                    background: [{
+                        backgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#FFF'],
+                                [1, '#333']
+                            ]
+                        },
+                        borderWidth: 0,
+                        outerRadius: '109%'
+                    }, {
+                        backgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#333'],
+                                [1, '#FFF']
+                            ]
+                        },
+                        borderWidth: 1,
+                        outerRadius: '107%'
+                    }, {
+                        // default background
+                    }, {
+                        backgroundColor: '#DDD',
+                        borderWidth: 0,
+                        outerRadius: '105%',
+                        innerRadius: '103%'
+                    }]
+                },
+
+                // the value axis
+                yAxis: {
+                    min: 0,
+                    max: 10,
+
+                    minorTickInterval: 'auto',
+                    minorTickWidth: 1,
+                    minorTickLength: 10,
+                    minorTickPosition: 'inside',
+                    minorTickColor: '#666',
+
+                    tickPixelInterval: 30,
+                    tickWidth: 2,
+                    tickPosition: 'inside',
+                    tickLength: 10,
+                    tickColor: '#666',
+                    labels: {
+                        step: 2,
+                        rotation: 'auto'
+                    },
+                    title: {
+                        text: 'média'
+                    },
+                    plotBands: [{
+                        from: 7,
+                        to: 10,
+                        color: '#55BF3B' // green
+                    }, {
+                        from: 4,
+                        to: 7,
+                        color: '#DDDF0D' // yellow
+                    }, {
+                        from: 0,
+                        to: 4,
+                        color: '#DF5353' // red
+                    }]
+                },
+
+                // A propriedade data que diz que nota será.
+                series: [{
+                    name: 'Speed',
+                    data: [nota],
+                    tooltip: {
+                        valueSuffix: 'média'
+                    }
+                }]
+
+            });
+        }
+
+    </script>
+</body>
+</html>
