@@ -1,9 +1,9 @@
 ﻿using Microsoft.Practices.Unity.InterceptionExtension;
 using System;
 
-namespace Workker.Framework.Domain.AOPException
+namespace Workker.Framework.Domain
 {
-    internal class LoggerCallHandler : ICallHandler
+    public class LoggerCallHandler : ICallHandler
     {
         public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
         {

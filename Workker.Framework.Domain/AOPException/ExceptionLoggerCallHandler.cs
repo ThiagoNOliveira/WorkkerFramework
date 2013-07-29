@@ -1,8 +1,8 @@
 ﻿using Microsoft.Practices.Unity.InterceptionExtension;
 
-namespace Workker.Framework.Domain.AOPException
+namespace Workker.Framework.Domain
 {
-    internal class ExceptionLoggerCallHandler : ICallHandler
+    public class ExceptionLoggerCallHandler : ICallHandler
     {
         public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
         {
